@@ -63,6 +63,10 @@ Another distinctive feature of the app is it's ability to perform calculations o
 4. Run python manage.py runserver
 5. Open http://localhost:8000 in your browser
 
+# Requirements
+- Django
+- Tailwind
+
 
 
 
