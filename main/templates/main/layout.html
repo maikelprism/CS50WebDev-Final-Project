@@ -1,0 +1,117 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'tailwind.css' %}">
+    <script src="{% static 'main/script.js' %}"></script>
+
+    {% comment %} <meta name="viewport" content="width=device-width, initial-scale=1" /> {% endcomment %}
+
+    <title>Document</title>
+</head>
+<body class="bg-white font-poopins md:flex">
+    
+    <div class="bg-gradient-to-br from-white via-slate-100 to-cyan-50 fixed h-full w-full z-[-1]"></div>
+
+    <div class="mobile-nav md:hidden bg-zinc-800 flex justify-between text-white px-2 fixed w-screen h-[64px] z-10">
+        <div class="flex items-center text-2xl p-2">
+            <div class="bg-gradient-to-br from-blue-400 via-sky-400 to-cyan-400 w-12 h-12 flex items-center justify-center rounded-lg mr-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+            </div>
+            <span>HabitTracker</span>
+        </div>
+        <div class="flex items-center" id="menu" data-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+        </div>
+    </div>
+
+    
+
+    <div class="fixed w-full z-20 top-16 text-center md:hidden hidden h-full" id="expanded-menu">
+
+        <ul class="text-white font-semibold text-xl divide-y divide-zinc-600 bg-zinc-900">
+
+            <a href="{% url 'habits' %}">
+                <li class="p-4 hover:bg-zinc-700">
+                
+                    Habits
+                
+                </li>
+            </a>
+
+            <hr>
+
+            <a href="{% url 'logout' %}">
+                <li class="p-4 hover:bg-zinc-700">
+                
+                    Log Out
+                    
+                </li>
+            </a>
+
+        </ul>
+
+        <div class="w-full h-full  bg-black opacity-70"></div>
+
+    </div>
+
+    <div class="sidebar px-4 w-[225px] bg-zinc-800 hidden md:block text-zinc-300 fixed h-screen">
+
+        <a href="{% url 'index' %}">
+            <div class="flex text-white justify-start my-6 items-center">
+                <div class="bg-gradient-to-br from-blue-400 via-sky-400 to-cyan-400 w-10 h-10 flex items-center justify-center rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-extralight text">HabitTracker</p>
+                    <p class="font-extralight text-sm text-zinc-500">Design your habits.</p>
+                </div>
+               
+            </div>
+        </a>
+        
+        <div class="mb-6">
+            Signed in as: <span class="font-bold text-blue-400">{{request.user}}</span>
+        </div>
+
+        <a href="{% url 'habits' %}">
+            <div class="flex items-center hover:bg-zinc-700 p-2 rounded-lg hover:text-blue-400 hover:cursor-pointer mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2 inline-block">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                </svg>
+                <span class="font-semibold">Habits</span>
+            </div>
+        </a>
+
+        <a href="{% url 'logout' %}">
+            <div class="flex items-center hover:bg-zinc-700 p-2 rounded-lg hover:text-blue-400 hover:cursor-pointer mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2 inline-block">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
+                  
+                <span class="font-semibold">Logout</span>
+            </div>
+        </a>
+
+
+        
+    </div>
+
+    <section class="main-content p-4 flex justify-center md:ml-[225px] md:pt-4 pt-[80px] overflow-y-auto flex-wrap  w-full items-start">
+        
+        {% block body %}
+        {% endblock body %}
+    </section>
+
+</body>
+</html>
+

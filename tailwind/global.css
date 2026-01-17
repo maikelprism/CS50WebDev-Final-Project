@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;500;800&display=swap');
+
+.edit-habit-icon {
+    visibility: hidden;
+}
+
+.habit-title:hover + .edit-habit-icon {
+    visibility: visible;
+}
+
+.h-screen {
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+div[data-status="COMPLETED"] > .status-icon-completed {
+    visibility: visible;
+}
+
+div[data-status="FAILED"] > .status-icon-failed {
+    visibility: visible;
+}
+
+div[data-status="PENDING"] > .status-icon-pending {
+    visibility: visible;
+}
+
+div[data-status="OUT_OF_RANGE"] > .status-icon-out {
+    visibility: visible;
+}
+

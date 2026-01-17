@@ -1,0 +1,46 @@
+{% extends 'main/index_layout.html' %}
+{% load static %}
+
+    
+    {% block body %}
+    
+    
+    <div class="flex flex-col items-center h-full">
+        
+            
+
+            <section class="mt-[3.5rem] w-full  py-[6rem] flex justify-center lg:px-[4rem] px-[1rem]">
+                <div class="flex items-center max-w-6xl flex-1 lg:justify-between flex-col lg:flex-row">
+                    <div class="md:w-[600px] h-full flex flex-col justify-center items-center">   
+                                
+                                <span class="text-white text-4xl md:text-5xl font-extrabold drop-shadow-lg leading-tight text-center lg:text-start">Design Your Habits With HabitTracker.</span>
+                               
+                                
+                                <p class="text-white text-justify mt-8 mb-8 drop-shadow-md">Keeping track of your habits has never been this easy. HabitTracker helps you to manage and improve your habits, while providing you with useful statistic and insights about your progress.</p>
+                            
+                                <div class="p-1 bg-white rounded-xl shadow-lg">
+                                    <img src="{% static 'main/bar.png' %}" alt="">
+                                </div>
+                           
+                    </div>
+                
+                 
+                        <div class="bg-white rounded-xl shadow-lg p-2 pt-8 text-center lg:ml-8 mt-8 lg:mt-0">  
+                            <span class="font-semibold text-xl">Analytics</span>
+                            <img src="{% static 'main/data.png' %}" class="max-w-[350px]" alt="" >
+                        </div>
+                        
+                   
+                </div>
+            </section>
+
+            <section class="flex flex-1 bg-slate-950">
+
+            </section>
+            
+    </div>
+    
+
+    {% endblock body %} 
+</html>
+

@@ -1,0 +1,23 @@
+{% extends 'main/index_layout.html' %}
+
+{% block body %}
+<div class="h-screen w-screen flex items-center justify-center">
+    <div class="w-[400px] bg-white shadow-lg rounded-lg p-8">
+        <h2 class="font-bold mb-8 text-xl">Create a new account.</h2>
+        <form action="signup" method="POST" class="mb-0">
+            {% csrf_token %}
+            <input name="username" type="text" class="w-full p-2 rounded-lg bg-zinc-100 focus:outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 mb-4" placeholder="Username" autofocus>
+            <input name="email" type="email" class="w-full p-2 rounded-lg bg-zinc-100 focus:outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 mb-4" placeholder="E-mail" autofocus>
+            <input name="password" type="password" class="w-full p-2 rounded-lg bg-zinc-100 focus:outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 mb-4" placeholder="Password">
+            <input name="repeat_password" type="password" class="w-full p-2 rounded-lg bg-zinc-100 focus:outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 mb-8" placeholder="Repeat Password">
+            <button type="submit" class="text-center text-white w-full font-bold bg-blue-400 rounded-lg p-2 mb-8">Sign Up</button>
+            <div class="text-sm">Already registered? <a href="login" class="text-blue-400 underline">Log In</a></div>
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="text-sm text-red-600">{{msg}}</div>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock body %}

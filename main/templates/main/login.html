@@ -1,0 +1,21 @@
+{% extends 'main/index_layout.html' %}
+
+{% block body %}
+<div class="h-screen w-screen flex items-center justify-center">
+    <div class="w-[400px] bg-white shadow-lg rounded-lg p-8">
+        <h2 class="font-bold mb-8 text-xl">Login to your account.</h2>
+        <form action="login" method="POST" class="mb-0">
+            {% csrf_token %}
+            <input name="username" type="text" class="w-full p-2 rounded-lg bg-zinc-100 focus:outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 mb-4" placeholder="Username" autofocus>
+            <input name="password" type="password" class="w-full p-2 rounded-lg bg-zinc-100 focus:outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 mb-8" placeholder="Password">
+            <button type="submit" class="text-center text-white w-full font-bold bg-blue-400 rounded-lg p-2 mb-8">Log In</button>
+            <div class="text-sm">No account? <a href="signup" class="text-blue-400 underline">Signup</a></div>
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="text-red-600 text-sm mt-2">{{msg}}</div>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock body %}

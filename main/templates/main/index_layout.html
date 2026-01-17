@@ -1,0 +1,41 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HabitTracker</title>
+    <link rel="stylesheet" href="{% static 'tailwind.css' %}">
+</head>
+
+
+
+<body class="font-poopins text-zinc-900 h-full bg-no-repeat bg-cover" style="background-image: url(https://e0.pxfuel.com/wallpapers/23/549/desktop-wallpaper-blue-color-gradient-1-data-id-navy-blue-gradient-background-dark-color-gradient.jpg); background-attachment: fixed;">
+
+    <div class="w-full h-[4rem] fixed bg-zinc-950 z-[2]">
+        <div class="flex justify-between px-4 text-white items-center h-full">
+            <a href="{% url 'index' %}">
+                <div class="font-extrabold text-xl flex items-center">
+                    <div class="bg-gradient-to-br from-blue-400 via-sky-400 to-cyan-400 w-10 h-10 hidden items-center justify-center rounded-lg mr-2 sm:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>
+                    </div>
+                    HabitTracker
+                </div>
+            </a>
+            <div class="font-semibold flex">
+                <a href="{% url 'signup' %}"><span class="mx-4 hover:text-blue-400 cursor-pointer whitespace-nowrap">Sign Up</span></a>
+                <a href="{% url 'login' %}"><span class="mx-4 hover:text-blue-400 cursor-pointer whitespace-nowrap">Log In</span></a>
+               
+               
+            </div>
+        </div>
+    </div>
+
+    
+
+    {% block body %}
+    {% endblock body %}
+</body>
+</html>

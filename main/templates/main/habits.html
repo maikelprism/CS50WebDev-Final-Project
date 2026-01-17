@@ -1,0 +1,281 @@
+{% extends 'main/layout.html' %}
+
+{% block body %}
+
+    <dialog id="dialog-edit-habit" class="rounded-xl">
+        <div class="p-4">
+            <p class="text-lg font-semibold text-center mb-4">Edit Habit</p>
+                <input 
+                id="edit-habit-name" 
+                type="text" 
+                placeholder="Name" 
+                class="mb-4 bg-zinc-100 outline-none ring-zinc-200 p-2 hover:ring-blue-400 ring-1 hover:ring-2 rounded-xl w-full"
+                value=""
+                required="required">
+                <div class="flex justify-between">
+                    <div class="flex items-center">
+                        <button class="bg-blue-400 rounded-lg text-white p-2 mr-2" id="save-edit-btn">Save</button>
+                        <button class="rounded-lg text-blue-400" id="cancel-edit-btn">Cancel</button>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="rounded-lg text-red-600" id="delete-habit-btn">Delete</button>
+                    </div>
+                </div>
+        </div>
+    </dialog>
+    
+    <dialog id="dialog-new-habit" class="rounded-xl">
+        <div class="p-4">
+            <p class="text-center font-semibold mb-4 text-lg">Create a New Habit</p>
+            <label for="habit_name_input" class="text-zinc-600 text-sm">Name</label>
+            <form action="{% url 'newHabit' %}" method="POST" class="mb-0">
+                <input type="text" name="habit_name" class="w-full bg-zinc-100 outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 rounded-lg p-2 mb-4" 
+                placeholder="e.g. 'Exercise' "
+                maxlength="22"
+                required="required"
+                id="habit_name_input"
+                value=""
+                >
+                <label for="select_start_date" class="text-sm text-zinc-600">Starting date</label>
+                <input type="date" max="{% now "Y-m-d" %}" class="w-full bg-zinc-100 outline-none ring-1 ring-zinc-200 focus:ring-2 focus:ring-blue-400 rounded-lg p-2 mb-4"
+                id="select_start_date" required="required" name="start_date" value="{% now "Y-m-d" %}">
+
+                <div class="flex justify-between px-0 items-center">
+                    <div>
+                        <button id="btn-new-habit-confirm" class="bg-blue-400 rounded-lg p-2 text-white text-left" value="submit">Create</button>
+                    </div>
+                    <div>
+                        <button id="btn-new-habit-cancel" class="text-blue-400" >Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </dialog>
+    
+   
+
+       <div class="max-w-full">
+           <div class="rounded-xl border p-4 shadow-lg max-w-full relative md:mr-4 mb-4 bg-white">
+                   
+               <div class="flex justify-between bg-slate-200 rounded-xl mb-4 border-slate-400">
+                   <div class="flex items-center p-2">
+                       <span id="selected-month" class="text-sm font-semibold mx-2 text-zinc-800"></span><span id="selected-week" class="text-zinc-500 text-sm font-semibold">28. - 23.</span>
+                   </div>
+                   <div class="flex items-center text-zinc-800 hover:text-blue-400">
+                       <button class="flex items-center border bg-slate-200 p-2 rounded-xl border-slate-300" id="btn-new-habit">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                           </svg>     
+                           <span class="text-sm font-semibold mr-2">New Habit</span>                                             
+                       </button>
+                   </div>
+               </div>
+               
+               <div class="max-w-full overflow-x-auto overflow-y-hidden">
+                   <table class="table-auto habit-table divide-y divide-grey-200">
+                       <thead class="">
+                           <th class="min-w-[75px] text-left">
+                                   <button id="btn-prev-week" class="text-zinc-800 hover:text-blue-400 pb-2">
+                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                           <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                       </svg>                          
+                                   </button>
+                               <div class="items-center flex">
+                           </th>
+           
+                           {% with "Mo0 Tu1 We2 Th3 Fr4 Sa5 Su6" as list %}
+           
+                               {% for day in list.split %}
+                                   <th class="font-normal min-w-[55px]">{{day.0}}{{day.1}} <p class="habit-th-date text-sm font-semibold pb-2" data-weekday="{{day.2}}">0</p></th>
+                               {% endfor %}    
+           
+                           {% endwith %}
+       
+                           <th class="min-w-[75px] text-right">
+                               <button id="btn-next-week" class="text-zinc-800 hover:text-blue-400 pb-2">
+                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                                       <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                   </svg>
+                               </button>
+                           </th>
+                           
+                       </thead>
+           
+                       <tbody class="divide-y">
+                           {% for habit in habits %}
+                                   <tr data-habit-id="{{habit.id}}" class="habit-row">
+                                           <td class="font-poopins text-sm fonmt pr-5">
+           
+                                               <span class="text-zinc-800 flex items-center" >
+                                                   <span class="habit-title hover:text-blue-400 text-zinc-800 cursor-pointer" data-habit-id ="{{habit.id}}" >{{habit.name}}</span>
+                                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 edit-habit-icon text-blue-400">
+                                                       <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                                                   </svg>
+                                               </span>
+                                                       
+                                           </td>
+                                               
+                                           {% for i in '0123456' %}
+                                               <td class="">
+                                                   <div class="habit-checkbox rounded-lg m-2 relative aspect-square
+                                                   data-[status=PENDING]:bg-zinc-200 
+                                                   data-[status=COMPLETED]:bg-green-400 
+                                                   data-[status=FAILED]:bg-red-400
+                                                   data-[status=OUT-OF-RANGE]:bg-zinc-300
+                                                   " 
+                                                   data-weekday="{{i}}" data-habit-id="{{habit.id}}">
+           
+                                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" 
+           
+                                                       class="right-0 left-0 mx-auto top-0 bottom-0 my-auto text-green-700 status-icon-completed invisible h-full w-full absolute">
+                                               
+                                                           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                       </svg>
+           
+                                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" 
+               
+                                                       class="right-0 left-0 mx-auto top-0 bottom-0 my-auto text-red-800 status-icon-failed invisible h-full w-full absolute">
+                                               
+                                                           <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                       </svg>
+           
+                                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" 
+               
+                                                       class="right-0 left-0 mx-auto top-0 bottom-0 my-auto text-slate-400 status-icon-pending invisible h-full w-full absolute">
+                                               
+                                                           <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                                       </svg>
+
+                                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" 
+               
+                                                       class="right-0 left-0 mx-auto top-0 bottom-0 my-auto text-slate-400 status-icon-out invisible h-full w-full absolute">
+                                               
+                                                           <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                                       </svg>
+
+                                                   </div>
+                                               </td>
+                                           {% endfor %}
+           
+                                           <td class="text-right">
+                                               <button class="analytics-btn" data-habit-id="{{habit.id}}">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-10 h-10 text-zinc-600 hover:text-blue-400">
+                                                       <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                                                   </svg>
+                                               </button>
+                                           </td>
+                                   </tr>
+           
+                                   {% empty %}
+           
+                                   <tr class="">
+                                       <td colspan="7" class="text-sm text-zinc-800 pt-2 pb-2">Start by adding a new habit.</td>
+                                   </tr>
+           
+           
+                           {% endfor %}
+           
+                           
+                       </tbody>
+                   </table>
+               </div>              
+           </div>
+       </div>
+
+       <div class="w-[300px] border rounded-xl shadow-lg p-4 bg-white">
+            <div class="flex flex-col items-center text-zinc-500" id="analytics-content">
+                <div class="font-semibold">Analytics</div>
+                <div class="text-zinc-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.25" stroke="currentColor" class="w-24 h-24 my-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                    </svg>  
+                </div>
+                <p class="text-center text-sm">Click on a habits analytics icon to show more detailed information.</p>
+            </div>
+       </div>
+
+       <template id="analytics-template">
+            <div class="flex flex-col items-center text-zinc-800" id="analytics-content">
+                <div class="font-semibold mb-2" id="analytics-habit-name">Habit Name</div>
+                
+                <p class="text-xs w-full text-left mb-0.5 font-extralight text-zinc-500">Consistency</p>
+                <div class="w-full bg-zinc-400 rounded-full mb-2">
+                    <div class="bg-blue-400 text-xs text-center p-1 rounded-full w-full text-white font-semibold" id="habit-progress-bar">%%%</div>
+                </div>
+
+                <div class="w-full h-[1px] bg-zinc-300 mb-2"></div>
+
+                <div class="w-full text-sm font-semibold mb-2">
+
+                    <div class="flex justify-between">
+                        <div>
+                            <ul class="list-disc list-inside">
+                                <li>Completed</li>
+                            </ul>
+                        </div>
+                        <div id="times_completed">
+                            N/A
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div>
+                            <ul class="list-disc list-inside">
+                                <li>Failed</li>
+                            </ul>
+                        </div>
+                        <div id="times_failed">
+                            N/A
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <div>
+                            <ul class="list-disc list-inside">
+                                <li>Pending</li>
+                            </ul>
+                        </div>
+                        <div id="times_pending">
+                            N/A
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full h-[1px] bg-zinc-300 mb-2"></div>
+
+                <span class="mb-2">Streaks</span>
+
+                <div class="flex w-full bg-blue-100 rounded-xl p-1 mb-4">
+                    <div class="flex-1 text-center text-blue-400 font-semibold border-r-[1px] border-blue-200">
+                        <div>Current</div>
+                        <div class="text-zinc-800" id="current_streak">N/A</div>
+                    </div>
+
+                    <div class="flex-1 text-center text-blue-400 font-semibold border-l-[1px] border-blue-200">
+                        <div>Longest</div>
+                        <div class="text-zinc-800" id="longest_streak">N/A</div>
+                    </div>
+                </div>
+                
+                <div class="text-xs text-zinc-500">Started on<span class="ml-[.25rem]" id="date_started">N/A</span></div>
+    
+
+            </div>
+       </template>
+   
+  
+
+
+           
+       
+        
+        
+
+        
+         
+        
+
+    
+
+{% endblock body %}
